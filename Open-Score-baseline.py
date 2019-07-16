@@ -98,6 +98,7 @@ for i in tqdm(['h','w','ppi','ratio']):
     all_data['{}_rank'.format(i)] = all_data['{}_count'.format(i)].rank(method='min')
 
 feature_name = [i for i in all_data.columns if i not in ['sid','label','time']]
+cat_list = [i for i in train.columns if i not in ['sid','label','nginxtime']]
 
 from sklearn.metrics import roc_auc_score
 
