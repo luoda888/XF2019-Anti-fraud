@@ -114,7 +114,7 @@ skf = StratifiedKFold(n_splits=5, random_state=random_seed, shuffle=True)
 for index, (train_index, test_index) in enumerate(skf.split(X_train, y)):
     print(index)
     train_x, test_x, train_y, test_y = X_train[feature_name].iloc[train_index], X_train[feature_name].iloc[test_index], y.iloc[train_index], y.iloc[test_index]
-    cbt_model = cbt.CatBoostClassifier(iterations=3000,learning_rate=0.1,max_depth=7,l2_leaf_reg=10,verbose=10,early_stopping_rounds=100,devices='GPU',eval_metric='F1')
+    cbt_model = cbt.CatBoostClassifier(iterations=3000,learning_rate=0.05,max_depth=11,l2_leaf_reg=1,verbose=10,early_stopping_rounds=400,task_type='GPU',eval_metric='F1',cat_features=cat_list)
     cbt_model.fit(train_x[feature_name], train_y,eval_set=(test_x[feature_name],test_y))
     cv_model.append(cbt_model)
     y_test = cbt_model.predict(X_test[feature_name])
@@ -126,12 +126,8 @@ for index, (train_index, test_index) in enumerate(skf.split(X_train, y)):
     
 # GPU结果五折 
 # 第一折
-# bestTest = 0.9358583857
-# bestIteration = 1437
-
-# 第二折
-# bestTest = 0.9342474616
-# bestIteration = 805
+# bestTest = 0.94051
+# bestIteration = 1512
 
 fi = []
 for i in cv_model:
